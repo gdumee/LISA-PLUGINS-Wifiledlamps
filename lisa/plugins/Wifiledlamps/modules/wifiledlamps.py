@@ -5,6 +5,7 @@ import gettext
 import inspect
 import os
 import wifileds
+from lisa.Neotique.NeoTrans import NeoTrans
 
 
 class Wifiledlamps(IPlugin):
@@ -13,10 +14,10 @@ class Wifiledlamps(IPlugin):
         self.configuration_plugin = self.mongo.lisa.plugins.find_one({"name": "Wifiledlamps"})
         self.path = os.path.realpath(os.path.abspath(os.path.join(os.path.split(
             inspect.getfile(inspect.currentframe()))[0],os.path.normpath("../lang/"))))
-        self._ = translation = gettext.translation(domain='wifiledlamps',
+        self._ = NeoTrans(domain='wifiledlamps',
                                                    localedir=self.path,
                                                    fallback=True,
-                                                   languages=[self.configuration_lisa['lang']]).ugettext
+                                                   languages=[self.configuration_lisa['lang']]).Trans
         self.led_connection = wifileds.limitlessled.connect(self.configuration_plugin['configuration']['controller']['address'],
                                                             self.configuration_plugin['configuration']['controller']['port'])
 
